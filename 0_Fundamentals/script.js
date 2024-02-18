@@ -260,6 +260,7 @@ const johnObj = {
     return this.BMI;
   },
 };
+johnObj.caclBMI();
 const markObj = {
   fullName: "Mark Miller",
   mass: 78,
@@ -293,3 +294,5 @@ for (let i = 0; i < bills2.length; i++) {
   totals2[i] = bills2[i] + tips2[i];
 }
 console.log(bills2, tips2, totals2);
+let i = 7;
+bills[i];
