@@ -127,7 +127,7 @@ allSections.forEach((curr) => {
 function loadImg(entries, observerObj) {
   const [entry] = entries;
   if (!entry.isIntersecting) return;
-  console.log(entry);
+  //console.log(entry);
   entry.target.src = entry.target.dataset.src;
   // you can keep the classList.remove line without event listener
   //but the lazy image is loaded first, a little low quality but once loaded it's replaced asynchronously on its own
@@ -145,3 +145,55 @@ const imgObserver = new IntersectionObserver(loadImg, {
   rootMargin: "200px",
 });
 imgTargets.forEach((curr) => imgObserver.observe(curr));
+
+//SLIDER - LAST
+const slides = document.querySelectorAll(".slide");
+const sliderBtnLeft = document.querySelector(".slider__btn--left");
+const sliderBtnRight = document.querySelector(".slider__btn--right");
+const dotsContainer = document.querySelector(".dots");
+let currSlide = 0;
+function createDots() {
+  slides.forEach((_, i) => {
+    dotsContainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+}
+createDots();
+const activateDot = (slide) => {
+  document
+    .querySelectorAll(".dots__dot")
+    .forEach((dot) => dot.classList.remove("dots__dot--active"));
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add("dots__dot--active");
+};
+function goToSlide(slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+  activateDot(slide);
+}
+goToSlide(0);
+const nextSlide = () => {
+  currSlide = (currSlide + 1) % slides.length;
+  goToSlide(currSlide);
+};
+const prevSlide = () => {
+  currSlide = --currSlide < 0 ? slides.length - 1 : currSlide;
+  goToSlide(currSlide);
+};
+sliderBtnRight.addEventListener("click", nextSlide);
+sliderBtnLeft.addEventListener("click", prevSlide);
+document.addEventListener("keydown", (e) => {
+  e.key == "ArrowRight" && nextSlide();
+  e.key == "ArrowLeft" && prevSlide();
+});
+
+dotsContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("dots__dot")) {
+    const { slide } = e.target.dataset;
+    goToSlide(slide);
+  }
+});
