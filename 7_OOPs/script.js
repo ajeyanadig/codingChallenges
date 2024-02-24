@@ -1,126 +1,47 @@
+//Resource for this topic
+//Jonas Schmedtmann - coding heroes- The Complete JavaScript Course 2024: From Zero to Expert!
+//Resource page : - https://github.com/jonasschmedtmann/complete-javascript-course
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 "use strict";
-// function Car(speed, make) {
-//   this.speed = speed;
-//   this.make = make;
-// }
-// Car.prototype.accelerate = function () {
-//   this.speed += 10;
-//   console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-// };
-// Car.prototype.brake = function () {
-//   this.speed -= 5;
-//   console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-// };
-// let bmw = new Car(120, 'BMW');
-// let merc = new Car(95, 'Mercedes');
-// bmw.accelerate();
-// bmw.accelerate();
-// bmw.brake();
-// merc.accelerate();
-// merc.accelerate();
-// merc.brake();
+console.log(`FUNDAMENTALS PART 1:\n\n`);
 
-// class Car {
-//   constructor(speed, make) {
-//     this.speed = speed;
-//     this.make = make;
-//   }
-//   //all this goes into prototype and not the literal object itself
-//   accelerate() {
-//     this.speed += 10;
-//     console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-//   }
-//   brake() {
-//     this.speed -= 5;
-//     console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-//   }
-//   get speedUS() {
-//     return (this.speed * 5) / 8;
-//   }
+/*
+Topics : 
+  1) OOPs Traditional
+  2) OOPs in JS
+  3) Constructor Functions and new keyword
+  4) Prototypes
+  5) Prototypal Inheritance and The Prototype Chain
+  6) Prototypal Inheritance on Built-In Objects
+  7) ES6 Classes
+  8) Setters and Getters
+  9) Static Methods
+  10) Object.create()
+  11) Inhetitance between classes : Constructor Functions
+  12) Inhetitance between classes : Classes
+  13) Inhetitance between classes : Object.create()
+  14) Classes example(code it out)
+  15) Encapsulation (here it's not only the literal meaning but also access modifiers)-Protected
+  16) Encapsulation - Private Fields
+  17) Chaining Methods(just return object and enjoy life :P )
+  18) Summary 
+  19) Final Challenge
+*/
 
-//   set speedUS(speed) {
-//     this.speed = this.speed * 1.6;
-//   }
-// }
-// let bmw = new Car(120, 'BMW');
+//////////////////////////////////////////////////////////////////////////////////////////////
+//CHALLENGES
 
-// console.log(bmw.speedUS);
-// bmw.speed = 75;
-// console.log(bmw);
-// bmw.speedUS = 75;
-// console.log(bmw);
+/*
+CHALLENGE #1
 
-// const Person = function (name, birthYear) {
-//   this.name = name;
-//   this.birthYear = birthYear;
-// };
-// Person.prototype.calcAge = function () {
-//   return 2023 - this.birthYear;
-// };
+*/
 
-// const Student = function (name, birthYear, course) {
-//   Person.call(this, name, birthYear);
-//   this.course = course;
-// };
-// // Student.prototype.__proto__ = Person.prototype;
-// Student.prototype = Object.create(Person.prototype);
+/*CHALLENGE #2
 
-// Student.prototype.introduce = function () {
-//   console.log(`Hey my name is ${this.name} and I study ${this.course}`);
-// };
-// const mike = new Student('Mike', 1996, 'CSE');
-// mike.introduce();
-// console.log(mike);
-// console.log(mike.calcAge());
+*/
 
-class Car {
-  constructor(speed, make) {
-    this.speed = speed;
-    this.make = make;
-  }
-  accelerate() {
-    this.speed += 10;
-    console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-    return this;
-  }
-  brake() {
-    this.speed -= 5;
-    console.log(`Speed of ${this.make} is now at ${this.speed} km/hr`);
-    return this;
-  }
-}
-
-class ElectricCar extends Car {
-  //pvt field
-  #charge;
-  constructor(speed, make, charge) {
-    super(speed, make);
-    this.#charge = charge;
-  }
-  accelerate() {
-    this.#charge--;
-    this.speed += 15;
-    console.log(
-      `Speed of ${this.make} is now at ${
-        this.speed
-      } km/hr and batterys is down to ${this.#charge}`
-    );
-    return this;
-  }
-  chargeBattery(chargeTo) {
-    this.#charge = chargeTo;
-    return this;
-  }
-}
-
-let tesla = new ElectricCar(200, "Tesla", 50);
-tesla
-  .accelerate()
-  .accelerate()
-  .accelerate()
-  .brake()
-  .chargeBattery(90)
-  .accelerate();
-
-console.log(tesla);
-//..
+/*CHALLENGE #3
+ */
