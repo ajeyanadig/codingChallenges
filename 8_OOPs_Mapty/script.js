@@ -1,25 +1,26 @@
-'use strict';
+"use strict";
 
 // prettier-ignore
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 //DOM Selectors
-const form = document.querySelector('.form');
-const containerWorkouts = document.querySelector('.workouts');
-const inputType = document.querySelector('.form__input--type');
-const inputDistance = document.querySelector('.form__input--distance');
-const inputDuration = document.querySelector('.form__input--duration');
-const inputCadence = document.querySelector('.form__input--cadence');
-const inputElevation = document.querySelector('.form__input--elevation');
+const form = document.querySelector(".form");
+const containerWorkouts = document.querySelector(".workouts");
+const inputType = document.querySelector(".form__input--type");
+const inputDistance = document.querySelector(".form__input--distance");
+const inputDuration = document.querySelector(".form__input--duration");
+const inputCadence = document.querySelector(".form__input--cadence");
+const inputElevation = document.querySelector(".form__input--elevation");
 
 ///////////i added a temp marker in line 119, also potential for further improving project
+///extra features on 26th
 
 ////////// PROJECT WORKOUT DATA ////////////
 
 class Workout {
   date = new Date();
   clicks = 0;
-  id = (Date.now() + '').slice(-10);
+  id = (Date.now() + "").slice(-10);
   constructor(coords, distance, duration) {
     this.coords = coords; //[lat,lng]
     this.distance = distance; //km
@@ -36,7 +37,7 @@ class Workout {
   }
 }
 class Running extends Workout {
-  type = 'running';
+  type = "running";
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
     this.cadence = cadence;
@@ -51,7 +52,7 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
-  type = 'cycling';
+  type = "cycling";
   constructor(coords, distance, duration, elevationGain) {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
@@ -81,16 +82,19 @@ class App {
     this._getLocalStorage();
 
     //Attatch event handlers
-    form.addEventListener('submit', this._newWorkout.bind(this)); //most important part of app
-    inputType.addEventListener('change', this._toggleElevationField);
-    containerWorkouts.addEventListener('click', this._moveToPopop.bind(this));
+    form.addEventListener("submit", this._newWorkout.bind(this)); //most important part of app
+    inputType.addEventListener("change", this._toggleElevationField);
+    containerWorkouts.addEventListener("click", this._moveToPopop.bind(this));
   }
 
   _getPosition() {
     if (navigator.geolocation)
-      navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), e => {
-        alert("Couldn't get coordinates");
-      });
+      navigator.geolocation.getCurrentPosition(
+        this._loadMap.bind(this),
+        (e) => {
+          alert("Couldn't get coordinates");
+        }
+      );
   }
 
   _loadMap(position) {
@@ -98,14 +102,14 @@ class App {
     let { longitude } = position.coords;
     let coords = [latitude, longitude];
 
-    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
-    L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
+    L.tileLayer("https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
-    this.#map.on('click', this._showForm.bind(this));
+    this.#map.on("click", this._showForm.bind(this));
 
-    this.#workouts.forEach(work => {
+    this.#workouts.forEach((work) => {
       this._renderWorkoutMarker(work);
     });
     this.#map.setView(coords, this.#mapZoomLevel);
@@ -114,7 +118,7 @@ class App {
 
   _showForm(mapE) {
     this.#mapEvent = mapE;
-    form.classList.remove('hidden');
+    form.classList.remove("hidden");
     inputCadence.focus();
     //temp marker
     if (this.#tempMarker) {
@@ -128,27 +132,27 @@ class App {
       inputDuration.value =
       inputCadence.value =
       inputElevation.value =
-        '';
-    form.style.display = 'none';
-    form.classList.add('hidden');
+        "";
+    form.style.display = "none";
+    form.classList.add("hidden");
     setTimeout(() => {
-      form.style.display = 'grid';
+      form.style.display = "grid";
     }, 500);
   }
 
   _toggleElevationField() {
-    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+    inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
+    inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
   }
 
   _newWorkout(e) {
     e.preventDefault();
     //input validator function, check if number and positive
     const validateInputs = (...rest) => {
-      return rest.every(ele => Number.isFinite(ele));
+      return rest.every((ele) => Number.isFinite(ele));
     };
     const validatePositive = (...rest) => {
-      return rest.every(ele => ele > 0);
+      return rest.every((ele) => ele > 0);
     };
 
     //get data
@@ -159,26 +163,26 @@ class App {
     let workoutObj;
 
     //CREATE WORKOUT OBJECTS
-    if (type == 'running') {
+    if (type == "running") {
       cadence = +inputCadence.value;
-      //validate data with guard clause
+      //validate data w guard clause
       if (
         !validateInputs(distance, duration, cadence) ||
         !validatePositive(distance, duration, cadence)
       ) {
-        return alert('Please enter valid positive numbers');
+        return alert("Please enter valid positive numbers");
       }
       let { lat, lng } = this.#mapEvent.latlng;
       workoutObj = new Running([lat, lng], distance, duration, cadence);
     }
-    if (type == 'cycling') {
+    if (type == "cycling") {
       elevation = +inputElevation.value;
       //validate data, elev can be negative
       if (
         !validateInputs(distance, duration, elevation) ||
         !validatePositive(distance, duration)
       ) {
-        return alert('Please enter valid numbers');
+        return alert("Please enter valid numbers");
       }
       let { lat, lng } = this.#mapEvent.latlng;
       workoutObj = new Cycling([lat, lng], distance, duration, elevation);
@@ -213,7 +217,7 @@ class App {
         })
       )
       .setPopupContent(
-        `${workout.type == 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
+        `${workout.type == "running" ? "🏃‍♂️" : "🚴‍♀️"} ${workout.description}`
       )
       .openPopup();
   }
@@ -224,7 +228,7 @@ class App {
     <h2 class="workout__title">${workout.description}</h2>
     <div class="workout__details">
       <span class="workout__icon">${
-        workout.type == 'running' ? '🏃‍♂️' : '🚴‍♀️'
+        workout.type == "running" ? "🏃‍♂️" : "🚴‍♀️"
       }</span>
       <span class="workout__value">${workout.distance}</span>
       <span class="workout__unit">km</span>
@@ -235,7 +239,7 @@ class App {
       <span class="workout__unit">min</span>
     </div>
    `;
-    if (workout.type == 'running') {
+    if (workout.type == "running") {
       html += ` 
         <div class="workout__details">
           <span class="workout__icon">⚡️</span>
@@ -249,7 +253,7 @@ class App {
         </div>
       </li>`;
     }
-    if (workout.type == 'cycling') {
+    if (workout.type == "cycling") {
       html += ` 
         <div class="workout__details">
           <span class="workout__icon">⚡️</span>
@@ -264,15 +268,15 @@ class App {
       </li>`;
     }
 
-    form.insertAdjacentHTML('afterend', html); //i want form always at the top, container.insertAdj would've made my form render below the list of workouts
+    form.insertAdjacentHTML("afterend", html); //i want form always at the top, container.insertAdj would've made my form render below the list of workouts
   }
   _moveToPopop(e) {
     //classic event delegation where elements to click and listen to aren't even rednered yet, hence attach stuff to it's parent container and make the function run when event bubbles up from the target we want. Event propogation for the win
-    const workoutEle = e.target.closest('.workout'); //what if event starts inside card, inner elements are tatget, hence return the closest parent card --> .workout list
+    const workoutEle = e.target.closest(".workout"); //what if event starts inside card, inner elements are tatget, hence return the closest parent card --> .workout list
     if (!workoutEle) return; // on cotntainer but outside cards.
 
     //now find corresponding workout obj from arr, luckily we attatched data-id in template
-    const workout = this.#workouts.find(work => {
+    const workout = this.#workouts.find((work) => {
       return work.id === workoutEle.dataset.id;
     });
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
@@ -281,29 +285,29 @@ class App {
     });
     workout.click();
 
-    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
   }
 
   _setLocalStorage() {
-    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
   }
   _getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('workouts'));
+    const data = JSON.parse(localStorage.getItem("workouts"));
 
     if (!data) return;
     this.#workouts = data;
-    this.#workouts.forEach(work => {
+    this.#workouts.forEach((work) => {
       work.__proto__ =
-        work.type == 'running'
+        work.type == "running"
           ? Object.create(Running.prototype)
           : Object.create(Cycling.prototype);
     });
-    this.#workouts.forEach(work => {
+    this.#workouts.forEach((work) => {
       this._renderWorkout(work);
     });
   }
   reset() {
-    localStorage.removeItem('workouts');
+    localStorage.removeItem("workouts");
     location.reload();
   }
 }

@@ -135,5 +135,21 @@ console.log(ford.speedUS);
 ford.speedUS = ford.speedUS;
 console.dir(CarCl);
 
+//
+
+const personProto = {
+  greet() {
+    console.log(`I am ${this.name} ! Nice to meet you`);
+  },
+  init() {
+    this.name = "Ajeya";
+  },
+};
+
+const person1 = Object.create(personProto);
+person1.init();
+console.log(person1);
+const person2 = Object.create(person1);
+console.log(person2);
 /*CHALLENGE #3
  */
