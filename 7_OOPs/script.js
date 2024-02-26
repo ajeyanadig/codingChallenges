@@ -152,4 +152,38 @@ console.log(person1);
 const person2 = Object.create(person1);
 console.log(person2);
 /*CHALLENGE #3
+Your tasks:
+1. Use a constructor function to implement an ElectricCar (called'EV') as a child "class" of 'Car'. Besides a make and current speed, the 'EV' also has the current battery charge in % ('charge' property)
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo'
+3. Implementan'accelerate'methodthatwillincreasethecar'sspeedby20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%'
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! Hint: Review the definiton of polymorphism 😉
+Test data:
+§ Data car 1: 'Tesla' going at 120 km/h, with a charge of 23%
  */
+
+class Car {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(`Car has Accelerated, speed is now ${this.speed}`);
+  }
+  brake() {
+    this.speed -= 5;
+    this.speed <= 0
+      ? console.log(`Car is at rest. Speed is ${(this.speed = 0)}`)
+      : console.log(
+          `${this.constructor.name} has applied brakes, speed is now ${this.speed}`
+        );
+  }
+}
+const bmw = new Car("gt650", 0);
+console.log(bmw);
+bmw.accelerate();
+bmw.brake();
+bmw.brake();
+bmw.brake();
+bmw.brake();
+console.log(bmw);
