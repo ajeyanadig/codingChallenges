@@ -125,6 +125,7 @@ class CarCl {
     return this.speed / 1.6;
   }
   set speedUS(newSpeed) {
+    //risk of recursion if setting an auxiollary property with same name again, always pay heed to this. WILL cause stack overflow
     this.speed = newSpeed * 1.6;
   }
 }
@@ -136,7 +137,7 @@ ford.speedUS = ford.speedUS;
 console.dir(CarCl);
 
 //
-
+//Object.create() type beat(for OOPS), w/o constructor functions or classes
 const personProto = {
   greet() {
     console.log(`I am ${this.name} ! Nice to meet you`);
@@ -162,6 +163,7 @@ Test data:
  */
 
 class Car {
+  #password = ["BRO CHECKING"];
   constructor(make, speed) {
     this.make = make;
     this.speed = speed;
@@ -169,6 +171,7 @@ class Car {
   accelerate() {
     this.speed += 10;
     console.log(`Car has Accelerated, speed is now ${this.speed}`);
+    this.#password.push("val1");
   }
   brake() {
     this.speed -= 5;
@@ -187,3 +190,61 @@ bmw.brake();
 bmw.brake();
 bmw.brake();
 console.log(bmw);
+class ElectricCar extends Car {
+  constructor() {
+    super("Supra", 180);
+    console.log(this);
+  }
+  addValToPwdArr(val) {}
+}
+const supra = new ElectricCar();
+
+/*Challenge 4
+Coding Challenge #4
+Your tasks:
+1. Re-createChallenge#3,butthistimeusingES6classes:createan'EVCl' child class of the 'CarCl' class
+2. Makethe'charge'propertyprivate
+3. Implementtheabilitytochainthe'accelerate'and'chargeBattery'
+methods of this class, and also update the 'brake' method in the 'CarCl' class. Then experiment with chaining!
+Test data:
+§ Data car 1: 'Rivian' going at 120 km/h, with a charge of 23%*/
+
+class CarFinal {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  accelerate() {
+    this.speed += 10;
+    console.log(
+      `${this.constructor.name} has Accelerated, speed is now ${this.speed}`
+    );
+    return this;
+  }
+  brake() {
+    this.speed -= 5;
+    this.speed <= 0
+      ? console.log(`Car is at rest. Speed is ${(this.speed = 0)}`)
+      : console.log(
+          `${this.constructor.name} has applied brakes, speed is now ${this.speed}`
+        );
+    return this;
+  }
+}
+class ElectricCl extends CarFinal {
+  #charge;
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+  chargeBattery() {
+    console.log(
+      `Battery has gone from ${this.#charge}% to ${(this.#charge = 100)}%`
+    );
+    return this;
+  }
+}
+const mustang = new ElectricCl("GT Hybrid 650", 200, 80);
+console.log(mustang);
+mustang.accelerate().brake().chargeBattery().accelerate().brake();
+console.log(mustang);
