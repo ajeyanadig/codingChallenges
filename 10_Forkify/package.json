@@ -1,0 +1,23 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe App",
+  "default": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "author": "Ajeya",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.10.2",
+    "@types/core-js": "^2.5.7",
+    "@types/regenerator-runtime": "^0.13.3",
+    "parcel": "^2.10.2"
+  },
+  "dependencies": {
+    "core-js": "^3.33.2",
+    "fracty": "^1.0.9",
+    "regenerator-runtime": "^0.14.0"
+  }
+}
