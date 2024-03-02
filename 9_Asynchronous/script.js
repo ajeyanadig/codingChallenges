@@ -4,10 +4,7 @@ const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
 const renderError = (msg) => {
-  countriesContainer.insertAdjacentText(
-    "beforeend",
-    ` Error : ${msg} ! Try again`
-  );
+  countriesContainer.insertAdjacentText("beforeend", ` Error : ${msg} ! `);
 };
 const renderCountryCard = (data, neighbourClass = "") => {
   //data: Proper country object from API
@@ -19,9 +16,9 @@ const renderCountryCard = (data, neighbourClass = "") => {
       <p class="country__row"><span>👫</span>${
         data.population / 1_000_000 + " Million"
       }</p>
-      <p class="country__row"><span>🗣️</span>${Object.values(data.languages).at(
-        0
-      )}</p>
+      <p class="country__row"><span>🗣️</span>${
+        Object.values(data.languages)[0]
+      }</p>
       <p class="country__row"><span>💰</span>${
         Object.values(data.currencies).at(0).name
       }</p>
@@ -267,12 +264,17 @@ const sample = {
 //     });
 // };
 const whereAmI = function () {
-  console.log("WHERE AM I FUNCTION STARTS");
-  //Auth Key 	412110932759317341544x57701
-  // api - 'https://geocode.xyz/51.50354,-0.12768?geoit=xml&auth=your_api_key'
-  const latitude = 52.508,
-    longitude = 13.381;
-  fetch(`https://geocode.xyz/${latitude},${longitude}?json=1&auth=${0}`)
+  const navProm = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  })
+    .then((data) => {
+      const {
+        coords: { latitude, longitude },
+      } = data;
+      return fetch(
+        `https://geocode.xyz/${latitude},${longitude}?json=1&auth=${0}`
+      );
+    })
     .then((res) => {
       console.log(res);
       if (res.status == 200) return res.json();
@@ -293,6 +295,10 @@ const whereAmI = function () {
     .finally(() => {
       document.querySelector(".countries").style.opacity = 1;
     });
+  console.log("WHERE AM I FUNCTION STARTS");
+  //Auth Key 	412110932759317341544x57701
+  // api - 'https://geocode.xyz/51.50354,-0.12768?geoit=xml&auth=your_api_key'
+  3;
 };
 const getCountry = (country) => {
   //country name in param : String
@@ -330,6 +336,6 @@ const getCountry = (country) => {
 
 btn.addEventListener("click", () => {
   countriesContainer.innerHTML = "";
-  //getCountry("Germany");
+  //getCountry("Australia");
   whereAmI();
 });
