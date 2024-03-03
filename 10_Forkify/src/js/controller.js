@@ -1,15 +1,15 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
-import * as model from './model.js';
-import recipeView from './views/recipeView.js';
-import searchView from './views/searchView.js';
-import resultsView from './views/resultsView.js';
-import paginationView from './views/paginationView.js';
-import bookmarksView from './views/bookmarksView.js';
-import addRecipeView from './views/addRecipeView.js';
-import { MODAL_CLOSE_SEC } from './config.js';
-///////////////////////////////////////
+import * as model from "./model.js";
+import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
+import resultsView from "./views/resultsView.js";
+import paginationView from "./views/paginationView.js";
+import bookmarksView from "./views/bookmarksView.js";
+import addRecipeView from "./views/addRecipeView.js";
+import { MODAL_CLOSE_SEC } from "./config.js";
+////////////////////////////////////////
 
 const controlRecipes = async function () {
   try {
@@ -105,7 +105,7 @@ const controlAddRecipe = async function (newRecipe) {
     bookmarksView.render(model.state.bookmarks);
 
     //change ID in url
-    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+    window.history.pushState(null, "", `#${model.state.recipe.id}`);
     //close Modal
     setTimeout(function () {
       addRecipeView.toggleWindow();
@@ -117,7 +117,7 @@ const controlAddRecipe = async function (newRecipe) {
 };
 
 const newFeature = () => {
-  console.log('Welcome to the Forkify project');
+  console.log("Welcome to the Forkify project");
 };
 const init = () => {
   bookmarksView.addHandlerRender(controlBookmarks);
