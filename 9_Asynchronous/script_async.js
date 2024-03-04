@@ -1,11 +1,12 @@
 "use strict";
-//NOTE - proper async await program
-//NOTE - async functions are NOT hoisted. Good tbh.
-//NOTE - Errors have been thrown around and hanlded really well, a good reference, future example
+//NOTE - async functions are NOT hoisted. Good tbh. And Errors are handled well in try catch here, refer later
 
-// Selectors and Helper Functions
+// Selectors
+
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
+//Helper Functions
+
 function renderCountryCard(data, neighbourClass = "") {
   const template = `<article class="country ${neighbourClass}">
     <img class="country__img" src="${data.flags.png}" />
@@ -52,11 +53,9 @@ async function getMyLocation() {
 async function getCountry() {
   try {
     //Get my location
-    const positionObj = await getMyLocation();
     const {
       coords: { latitude: lat, longitude: long },
-    } = positionObj;
-
+    } = await getMyLocation();
     const val = await getJSON(
       `https://geocode.xyz/${lat},${long}?json=1&auth=${0}`,
       "Issue in Reverse GeoCoding"
@@ -87,9 +86,10 @@ btn.addEventListener("click", (e) => {
   countriesContainer.innerHTML = "";
   getCountry();
 });
+
 //Scope for future work
 
-// 1) pinpoint error handling for throttle and make sure exact errors are in console WHILE taking care User doesn't get to know too much in depth
+// 1) pinpoint error handling for throttling API and make sure exact errors are in console WHILE taking care User doesn't get to know too much in depth
 
 // 2) Promise wrapped in async function for getting location, it works, but can you work around it to get the code PURELY in async ? The navigator API has already been Promisyfied which is already pretty neat
 
