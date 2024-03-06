@@ -93,4 +93,4 @@ btn.addEventListener("click", (e) => {
 
 // 2) Promise wrapped in async function for getting location, it works, but can you work around it to get the code PURELY in async ? The navigator API has already been Promisyfied which is already pretty neat
 
-// 3) Navigator geolocator getCurrentPos is SLOW, better alternative ?
+// 3) Navigator geolocator getCurrentPos is SLOW, better alternative ? TO DO BRO
